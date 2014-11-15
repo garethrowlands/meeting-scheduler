@@ -2,6 +2,7 @@
 module Diary where
 
 import Types
+import Control.Monad (unless)
 import Data.Time.Clock
 import Data.Time.Calendar
 
@@ -16,13 +17,15 @@ bookMeetings :: OpeningHours -> [BookingRequest] -> Diary
 --    rStartTime :: UTCTime,
 --    rDurationHours :: Integer
 
+failUnless msg b = unless b $ fail msg
+
 -- bookMeeting :: OpeningHours -> Diary -> BookingRequest
 bookMeeting openingHours diary r@(BookingRequest {..}) = do
     failUnless openingHoursErr $ (rStartTime `inside` openingHours) && (endTime `inside` openingHours)
     failUnless overlappingErr $ undefined
     where
         t `inside` (opening,closing) = t >= opening && t <= closing
-        endTime = addHours rStartTime rDurationHours
+        endTime = addUTCTime rStartTime (fromInteger $ rDurationHours * 3600)
         openingHoursErr = "Outside opening hours: " ++ r
         overlappingErr = "Time already taken: " ++ r
 
