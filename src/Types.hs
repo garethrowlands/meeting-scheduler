@@ -1,6 +1,8 @@
 module Types where
 
 import           Data.Time.LocalTime
+import           Data.Time.Clock
+import Data.Text
 
 type OpeningHours = (TimeOfDay, TimeOfDay)
 
@@ -9,6 +11,9 @@ data Input = Input {
     iBookingRequests :: [BookingRequest]
 }
 
-data BookingRequest = {
-    rSubmissionTime :: U
+data BookingRequest = BookingRequest {
+    rSubmissionTime :: UTCTime,
+    rEmployeeId :: EmployeeId
 }
+
+type EmployeeId = Text

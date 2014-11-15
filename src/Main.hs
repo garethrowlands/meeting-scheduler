@@ -4,7 +4,7 @@ module Main where
 -- | The main entry point.
 main :: IO ()
 main = do
-    s <- readFile "input.txt"
+    s <- parseFromFile  "input.txt"
     putStrLn s
     putStrLn "Welcome to FP Haskell Center!"
     putStrLn "Have a good day!"
